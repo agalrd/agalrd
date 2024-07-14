@@ -1,0 +1,95 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Version {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  versionNumber Int?
+  content       String?
+  document      Document? @relation(fields: [documentId], references: [id])
+  documentId    String?
+}
+
+model Document {
+  id              String                      @id @default(cuid())
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+  name            String?
+  content         String?
+  documentVersion Int?
+  workflowStatus  EnumDocumentWorkflowStatus?
+  metadata        Json?
+  checkedOutBy    String?
+  checkedOutAt    DateTime?
+  workflows       Workflow[]
+  versions        Version[]
+}
+
+model Workflow {
+  id         String              @id @default(cuid())
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+  step       Int?
+  dueDate    DateTime?
+  status     EnumWorkflowStatus?
+  assignedTo String?
+  document   Document?           @relation(fields: [documentId], references: [id])
+  documentId String?
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName String?
+  lastName  String?
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  roles     Json
+}
+
+model OccupationalDose {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  hp10            Float?
+  hp0_7           Float?
+  measurementDate DateTime?
+  employeeId      String?
+}
+
+model HealthPhysicsStaff {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  firstName   String?
+  lastName    String?
+  position    String?
+  credentials String?
+}
+
+model Client {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  phoneNumber String?
+  firstName   String?
+  lastName    String?
+  email       String?
+}
+
+enum EnumDocumentWorkflowStatus {
+  Option1
+}
+
+enum EnumWorkflowStatus {
+  Option1
+}
