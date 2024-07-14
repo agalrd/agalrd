@@ -56,6 +56,16 @@ model User {
   roles     Json
 }
 
+model Client {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  phoneNumber String?
+  firstName   String?
+  lastName    String?
+  email       String?
+}
+
 model OccupationalDose {
   id              String    @id @default(cuid())
   createdAt       DateTime  @default(now())
@@ -76,14 +86,128 @@ model HealthPhysicsStaff {
   credentials String?
 }
 
-model Client {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  phoneNumber String?
-  firstName   String?
-  lastName    String?
-  email       String?
+model TestType {
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  testName       String?
+  description    String?
+  labTestResults LabTestResult[]
+}
+
+model LabTestResult {
+  id              String         @id @default(cuid())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  resultValue     String?
+  testDate        DateTime?
+  testType        TestType?      @relation(fields: [testTypeId], references: [id])
+  testTypeId      String?
+  labTechnician   LabTechnician? @relation(fields: [labTechnicianId], references: [id])
+  labTechnicianId String?
+}
+
+model LabTechnician {
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  firstName      String?
+  lastName       String?
+  position       String?
+  labTestResults LabTestResult[]
+}
+
+model MaintenanceSchedule {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  scheduledDate DateTime?
+  description   String?
+  technician    String?
+}
+
+model Equipment {
+  id             String    @id @default(cuid())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  name           String?
+  serialNumber   String?
+  specifications String?
+  purchaseDate   DateTime?
+}
+
+model MaintenanceLog {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  maintenanceDate DateTime?
+  performedBy     String?
+  notes           String?
+}
+
+model Lead {
+  id                 String          @id @default(cuid())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  status             EnumLeadStatus?
+  leadName           String?
+  contactInformation String?
+  source             String?
+}
+
+model CustomerInteraction {
+  id              String                                  @id @default(cuid())
+  createdAt       DateTime                                @default(now())
+  updatedAt       DateTime                                @updatedAt
+  interactionDate DateTime?
+  notes           String?
+  interactionType EnumCustomerInteractionInteractionType?
+  customerId      String?
+}
+
+model SalesOpportunity {
+  id              String                     @id @default(cuid())
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @updatedAt
+  opportunityName String?
+  potentialValue  Float?
+  stage           EnumSalesOpportunityStage?
+  closeDate       DateTime?
+}
+
+model LeaveRequest {
+  id         String                  @id @default(cuid())
+  createdAt  DateTime                @default(now())
+  updatedAt  DateTime                @updatedAt
+  startDate  DateTime?
+  endDate    DateTime?
+  status     EnumLeaveRequestStatus?
+  employee   Employee?               @relation(fields: [employeeId], references: [id])
+  employeeId String?
+}
+
+model PayrollRecord {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  paymentDate DateTime?
+  amount      Float?
+  notes       String?
+  employee    Employee? @relation(fields: [employeeId], references: [id])
+  employeeId  String?
+}
+
+model Employee {
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  lastName       String?
+  email          String?
+  position       String?
+  firstName      String?
+  startDate      DateTime?
+  leaveRequests  LeaveRequest[]
+  payrollRecords PayrollRecord[]
 }
 
 enum EnumDocumentWorkflowStatus {
@@ -91,5 +215,21 @@ enum EnumDocumentWorkflowStatus {
 }
 
 enum EnumWorkflowStatus {
+  Option1
+}
+
+enum EnumLeadStatus {
+  Option1
+}
+
+enum EnumCustomerInteractionInteractionType {
+  Option1
+}
+
+enum EnumSalesOpportunityStage {
+  Option1
+}
+
+enum EnumLeaveRequestStatus {
   Option1
 }

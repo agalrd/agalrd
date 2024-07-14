@@ -3,9 +3,21 @@ import { VersionModule } from "./version/version.module";
 import { DocumentModule } from "./document/document.module";
 import { WorkflowModule } from "./workflow/workflow.module";
 import { UserModule } from "./user/user.module";
+import { ClientModule } from "./client/client.module";
 import { OccupationalDoseModule } from "./occupationalDose/occupationalDose.module";
 import { HealthPhysicsStaffModule } from "./healthPhysicsStaff/healthPhysicsStaff.module";
-import { ClientModule } from "./client/client.module";
+import { TestTypeModule } from "./testType/testType.module";
+import { LabTestResultModule } from "./labTestResult/labTestResult.module";
+import { LabTechnicianModule } from "./labTechnician/labTechnician.module";
+import { MaintenanceScheduleModule } from "./maintenanceSchedule/maintenanceSchedule.module";
+import { EquipmentModule } from "./equipment/equipment.module";
+import { MaintenanceLogModule } from "./maintenanceLog/maintenanceLog.module";
+import { LeadModule } from "./lead/lead.module";
+import { CustomerInteractionModule } from "./customerInteraction/customerInteraction.module";
+import { SalesOpportunityModule } from "./salesOpportunity/salesOpportunity.module";
+import { LeaveRequestModule } from "./leaveRequest/leaveRequest.module";
+import { PayrollRecordModule } from "./payrollRecord/payrollRecord.module";
+import { EmployeeModule } from "./employee/employee.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -22,9 +34,21 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
     DocumentModule,
     WorkflowModule,
     UserModule,
+    ClientModule,
     OccupationalDoseModule,
     HealthPhysicsStaffModule,
-    ClientModule,
+    TestTypeModule,
+    LabTestResultModule,
+    LabTechnicianModule,
+    MaintenanceScheduleModule,
+    EquipmentModule,
+    MaintenanceLogModule,
+    LeadModule,
+    CustomerInteractionModule,
+    SalesOpportunityModule,
+    LeaveRequestModule,
+    PayrollRecordModule,
+    EmployeeModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
